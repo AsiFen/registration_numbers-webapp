@@ -1,0 +1,51 @@
+<div class="container flex flex-col">
+    {{!-- this div capture is for all the input that I am taking from the user. --}}
+    <div class="max-w-md mx-auto rounded-xl shadow-md overflow-hidden md:max-w-2xl bg-lime-300">
+        <h1 class="text-3xl underline underline-offset-1 text-center py-4 mb-2 text-">List My Numba Plate</h1>
+        <p class="text-neutral-600 text-center mb-3">Enter a vehicle registration below from Cape Town(CA), Ceres(CT),
+            Paarl(CJ) or
+            Stellenbosch(CL).</p>
+        {{!-- POST form that will give the route access to the its variables --}}
+        <form action="/reg_numbers" method="post">
+            <div class="btn flex justify-center">
+                <label for="car_registration ml-4"> Enter Reg no:
+                    <input type="text" class="" name="car_reg">
+                </label>
+                <button type="submit"
+                    class="rounded px-2 py-1 border-2 border-neutral-950 bg-lime-500 ml-6">enter</button>
+            </div>
+
+            <div class="dropdown mb-8 text-center mt-4">
+                <label for="">Select Town:</label>
+                <select name="towns" id="">
+                    <option name="regRadio" value="all">View All</option>
+                    <option name="regRadio" value="CA"> Cape Town(CA)</option>
+                    <option name="regRadio" value="CL"> Stellenbosch(CL)</option>
+                    <option name="regRadio" value="CJ"> Paarl(CJ)</option>
+                    <option name="regRadio" value="CT"> Ceres(CT)</option>
+                </select>
+            </div>
+        </form>
+    </div>
+    {{!-- this div is for the display the registration numbers as well as the reset and error messages. --}}
+    <div
+        class="display max-w-md mx-auto rounded-xl shadow-md overflow-hidden md:max-w-2xl mt-8 bg-neutral-800 text-white">
+        <p class="mt-8 italic text-center mb-4">Once you have added a registration it will be added below here. To check
+            how many registrations are from a specific town, use the dropdown menu above.</p>
+        <div class="flex flex-wrap">
+            {{#each car_registration}}
+            <div class="reg_display text-xl border rounded mx-1 py-1 bg-lime-400 text-neutral-950 text-center mb-6">
+                {{this}}
+            </div>
+            {{/each}}
+        </div>
+
+        {{!-- <div class="display">
+            {{#each selectTown}}
+            <span class="py-4 bg-pink-500">
+                {{this}}
+            </span>
+            {{/each}} --}}
+        </div>
+    </div>
+</div>
