@@ -14,16 +14,19 @@
                 <button type="submit"
                     class="rounded px-2 py-1 border-2 border-neutral-950 bg-lime-500 ml-6">enter</button>
             </div>
+        </form>
+        <form action="/reg_number" method="post">
 
             <div class="dropdown mb-8 text-center mt-4">
                 <label for="">Select Town:</label>
-                <select name="towns" id="">
+                <select name="towns" id="towns">
                     <option name="regRadio" value="all">View All</option>
                     <option name="regRadio" value="CA"> Cape Town(CA)</option>
                     <option name="regRadio" value="CL"> Stellenbosch(CL)</option>
                     <option name="regRadio" value="CJ"> Paarl(CJ)</option>
                     <option name="regRadio" value="CT"> Ceres(CT)</option>
                 </select>
+                <input type="submit" name="chooseTown">
             </div>
         </form>
     </div>
@@ -38,13 +41,29 @@
             <div class="reg_display text-xl border rounded mx-1 py-1 bg-lime-400 text-neutral-950 text-center mb-6">
                 <a href="/reg_numbers/{{this}}">
                     {{this}}
+                </a>
             </div>
-            </a>
             {{/each}}
         </div>
+        {{!--
+        <script>
+            const dropdown = document.querySelector('select[name="towns"]');
+
+            dropdown.addEventListener('change', () => {
+                const selectedValue = dropdown.value;
+                fetch(`/${selectedValue}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        // Update the list of towns on the front-end using the returned data
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            });
+        </script> --}}
 
         <div class="display">
-            {{#each selectTown}}
+            {{#each select_town}}
             <span class="py-4 bg-pink-500">
                 {{this}}
             </span>

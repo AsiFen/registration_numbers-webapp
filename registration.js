@@ -1,5 +1,5 @@
 export default function Registration() {
-    let registration_list =  []
+    let registration_list = []
     let selectedItem = []
 
     function validRegistration(user_registration) {
@@ -9,9 +9,11 @@ export default function Registration() {
     }
 
     function addRegistrations(user_registration) {
-        if (registration_list[user_registration] == undefined) {
-            registration_list.push(user_registration)
-            registration_list[user_registration] = 0
+        if (validRegistration(user_registration)) {
+            if (registration_list[user_registration] == undefined) {
+                registration_list.push(user_registration)
+                registration_list[user_registration] = 0
+            }
         }
     }
 
@@ -26,19 +28,21 @@ export default function Registration() {
             if (dropdown_value == firstTwoChars || dropdown_value == 'all') {
                 selectedItem.push(registration_list[i])
             }
-        } 
+        }
     }
 
-    function getSelectedTown(){
-        return selectedItem
+    function getSelectedTown() {
+      if  (isTownSelected()){
+            return selectedItem
+        }
     }
 
     function isTownSelected() {
-        return (selectedItem.length === 0) ? 'No available registration' : ''
+        return (selectedItem.length === 0) ? true : false
     }
 
     function clear() {
-        if (confirm('Are you sure you want to clear all registrations?') ) {
+        if (confirm('Are you sure you want to clear all registrations?')) {
             localStorage.clear();
         }
     }
