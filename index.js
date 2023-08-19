@@ -1,3 +1,4 @@
+
 //import express  framework
 import express from 'express';
 //import Registration module
@@ -6,11 +7,9 @@ import Registration from './registration.js';
 import exphbs from 'express-handlebars';
 //import body-parsers to handle the reading of template objects?
 import bodyParser from 'body-parser';
-
-//import express flash and session to use
+//import express flash and session to use inconjuction for displaying error & reset messages
 import flash from 'express-flash';
 import session from 'express-session';
-
 //import the database connection module
 import db from './db_connection.js';
 
@@ -42,33 +41,38 @@ app.use(express.static('public'))
 //instance of the factory function 
 let registration = Registration();
 
-//import Routes
-
 //Send objects by rending to the index using the Get Method
 app.get('/', (req, res) => {
     let userReg = registration.getRegistrations();
-let selectedTown = registration.getSelectedTown();
-console.log(selectedTown);
+    // console.log(selectedTown, isSelected);
     res.render('index', {
         car_registration: userReg,
-        selectTown: selectedTown
+        // selectTown: selectedTown
     })
 })
 
-app.get('/reg_numbers', (req, res) => {
- 
+app.get('/reg_numbers/:registration_no', (req, res) => {
+    let registration_no = req.params.registration_no;
+    
+})
+
+app.get('reg_numbers/:town', (req, res) => {
+    let townx = req.params.town;
+    console.log(townx);
+    registration.selectTown(townx);
+    let selectedTown = registration.getSelectedTown();
+    let isSelected = registration.isTownSelected();
+    res.render('index', {
+        selectTown: selectedTown
+    })
+
 })
 
 app.post('/reg_numbers', (req, res) => {
     let car_reg = req.body.car_reg;
-    let town = req.body.towns;
-    registration.selectTown(town);
-    res.redirect('/');
-
     registration.validRegistration(car_reg);
     registration.addRegistrations(car_reg);
     res.redirect('/');
-
 })
 
 //process the enviroment the port is running on

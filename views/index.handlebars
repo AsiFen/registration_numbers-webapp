@@ -32,20 +32,23 @@
         class="display max-w-md mx-auto rounded-xl shadow-md overflow-hidden md:max-w-2xl mt-8 bg-neutral-800 text-white">
         <p class="mt-8 italic text-center mb-4">Once you have added a registration it will be added below here. To check
             how many registrations are from a specific town, use the dropdown menu above.</p>
-        <div class="flex flex-wrap">
+
+        <div class="registration_no flex flex-wrap justify-center" name="registration_no">
             {{#each car_registration}}
             <div class="reg_display text-xl border rounded mx-1 py-1 bg-lime-400 text-neutral-950 text-center mb-6">
-                {{this}}
+                <a href="/reg_numbers/{{this}}">
+                    {{this}}
             </div>
+            </a>
             {{/each}}
         </div>
 
-        {{!-- <div class="display">
+        <div class="display">
             {{#each selectTown}}
             <span class="py-4 bg-pink-500">
                 {{this}}
             </span>
-            {{/each}} --}}
+            {{/each}}
         </div>
     </div>
 </div>
