@@ -45,7 +45,6 @@ let registration = Registration();
 app.get('/', (req, res) => {
     let userReg = registration.getRegistrations();
     let isSelected = registration.isTownSelected();
-    console.log(registration.getSelectedTown());
     res.render('index', {
         car_registration: userReg,
         select_town: registration.getSelectedTown()
@@ -56,7 +55,6 @@ app.get('/', (req, res) => {
 
 app.get('/reg_numbers/:registration_no', (req, res) => {
     let registration_no = req.params.registration_no;
-
 })
 // app.get('/:town', (req, res) => {
 //     const selectedTown = req.params.town;
@@ -73,7 +71,10 @@ app.get('/reg_numbers/:registration_no', (req, res) => {
 app.post('/reg_number', (req, res) => {
     let town = req.body.towns;
     console.log(town);
+    console.log(registration.getSelectedTown());
     registration.selectTown(town);
+    res.redirect('/');
+
 })
 
 app.post('/reg_numbers', (req, res) => {

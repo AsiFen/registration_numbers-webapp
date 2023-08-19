@@ -32,9 +32,9 @@ export default function Registration() {
     }
 
     function getSelectedTown() {
-      if  (isTownSelected()){
+    //   if  (isTownSelected()){
             return selectedItem
-        }
+        // }
     }
 
     function isTownSelected() {

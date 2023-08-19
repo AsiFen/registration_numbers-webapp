@@ -12,9 +12,16 @@
                     <input type="text" class="" name="car_reg">
                 </label>
                 <button type="submit"
-                    class="rounded px-2 py-1 border-2 border-neutral-950 bg-lime-500 ml-6">enter</button>
+                    class="rounded px-2 py-1 border-2 border-neutral-950 bg-lime-500 ml-6 mb-2">enter</button>
             </div>
         </form>
+
+    </div>
+    {{!-- this div is for the display the registration numbers as well as the reset and error messages. --}}
+    <div
+        class="display max-w-md mx-auto rounded-xl shadow-md overflow-hidden md:max-w-2xl mt-4 bg-neutral-800 text-white">
+        <p class="mt-8 italic text-center mb-2 ml-4 mr-4">To check
+            how many registrations are from a specific town, use the dropdown menu above.</p>
         <form action="/reg_number" method="post">
 
             <div class="dropdown mb-8 text-center mt-4">
@@ -29,16 +36,9 @@
                 <input type="submit" name="chooseTown">
             </div>
         </form>
-    </div>
-    {{!-- this div is for the display the registration numbers as well as the reset and error messages. --}}
-    <div
-        class="display max-w-md mx-auto rounded-xl shadow-md overflow-hidden md:max-w-2xl mt-8 bg-neutral-800 text-white">
-        <p class="mt-8 italic text-center mb-4">Once you have added a registration it will be added below here. To check
-            how many registrations are from a specific town, use the dropdown menu above.</p>
-
         <div class="registration_no flex flex-wrap justify-center" name="registration_no">
             {{#each car_registration}}
-            <div class="reg_display text-xl border rounded mx-1 py-1 bg-lime-400 text-neutral-950 text-center mb-6">
+            <div class="reg_display text-xl border-double border-5 border-neutral-600 rounded mx-1 py-1 bg-lime-400 text-neutral-950 text-center mb-6">
                 <a href="/reg_numbers/{{this}}">
                     {{this}}
                 </a>
@@ -62,9 +62,9 @@
             });
         </script> --}}
 
-        <div class="display">
+        <div class="">
             {{#each select_town}}
-            <span class="py-4 bg-pink-500">
+            <span class="reg_display text-xl border-double border-5 border-primary mx-1 py-1 text-neutral-950 text-center mb-6 bg-pink-500">
                 {{this}}
             </span>
             {{/each}}
