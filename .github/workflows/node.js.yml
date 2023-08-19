@@ -11,7 +11,6 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     env:
       DATABASE_URL: postgres://asifen:gWV2pIM4RzT5eZtZtipne6Q7la14aBOJ@dpg-cj97tfu3ttrc73abqleg-a.frankfurt-postgres.render.com/users_oba1?ssl=true
@@ -31,5 +30,5 @@ jobs:
     - run: npm ci
     - run: npm run build --if-present
     - run: npm test
-     env:
-      DATABASE_URL: postgres://asifen:gWV2pIM4RzT5eZtZtipne6Q7la14aBOJ@dpg-cj97tfu3ttrc73abqleg-a.frankfurt-postgres.render.com/users_oba1?ssl=true
+      env:
+       DATABASE_URL: postgres://asifen:gWV2pIM4RzT5eZtZtipne6Q7la14aBOJ@dpg-cj97tfu3ttrc73abqleg-a.frankfurt-postgres.render.com/users_oba1?ssl=true
