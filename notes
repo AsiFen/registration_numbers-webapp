@@ -66,7 +66,7 @@ have {{selectedRegistration}} object template to output the selected registratio
 - Entity pk named town name > insert town names with script/SQL query.
 *Create a table named registrations_numbers
 - Entity named reg_number 
--fk named town name
+-fk named town_name
 
 *create connection.js file and import promise and dotenv
 *create .env file, enter DATABASE_URL from ElephantSQL
@@ -79,3 +79,11 @@ have {{selectedRegistration}} object template to output the selected registratio
 
 
 
+to do list:
+1.1 CREATE DB SQL queries. Using a table in another table.
+1.2 Create db connection
+2. Use those queries in Factory Function.
+3. Create tests
+4. Create Routes
+5. Link routes 
+7. Env on render like nicholas showed me

@@ -11,7 +11,7 @@ import bodyParser from 'body-parser';
 import flash from 'express-flash';
 import session from 'express-session';
 //import the database connection module
-import db from './db_connection.js';
+import db from './dabatase/db_connection.js';
 
 //instantiate express module
 let app = express();
