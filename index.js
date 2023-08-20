@@ -55,7 +55,11 @@ app.get('/', (req, res) => {
 
 app.get('/reg_numbers/:registration_no', (req, res) => {
     let registration_no = req.params.registration_no;
+    res.render('registration', {
+        showReg: registration_no
+    })
 })
+
 // app.get('/:town', (req, res) => {
 //     const selectedTown = req.params.town;
 //     res.redirect('/');

@@ -1,0 +1,81 @@
+what the app does?
+-This webApp will take in a list of registration numbers from users.
+-Only registration from 4 towns will be acceptable, CA, CL, CT or CT
+-These are the acceptable number plate formats CX 1234, CX 1234, CX 12345, CX 123456, CX 123-456. X can only be T,L, A or J.
+-The user can choose town see registration numbers from these 4 towns.
+
+Components to the webApp?
+1. Presentation layer
+2. Application layer
+3. Service layer
+4. Database layer
+
+*wwhich layer does installing the dependencies fall?
+
+With thin slicing everything happens all once not in layers so I guess I must first start with making the 
+webApp add and display the the registration numbers. 
+
+// 1. Create a form with the /reg_numbers post route to post data from the form to the server side. Add an add btn
+// that is of type submit.
+// 2. Outside the form create a display registration numbers div and inside
+1. Presentation layer
+*Create form with action /reg_numbers and method post
+*create add button inside from with type submit
+*create second form with action /reg_number and method post with an input element that has type submit.
+*create div with flex and flex wrap properties that will list all the registration horizontally, 
+have {{carRegistrations}} object template to output the registrations.
+*create div with flex and flex wrap properties that will list all the registration horizontally, 
+have {{selectedRegistration}} object template to output the selected registrations.
+*Use if helper to display only 1 object template at a time.
+*Have template object for error messages as well as success message. Use settimeout to clear display after a while.
+*Have a second page to view a single registration. Use an achor tag.
+*Have navigation to help you come back from the viewing the single registration numbers.
+* Add a reset button. 
+
+
+2.Application layer
+* Create a root-route to render the registration numbers, as well as the selected registrations.
+*POST route /reg_numbers to add registration numbers
+*
+*
+*
+*
+*
+*
+*
+
+3. Service layer
+
+*Function that validates registrations added
+*fucntion that adds the registrations in alist and gets the registration
+*Function to select registration number from a list based on drop down selection.
+*Function to get that selected registration number
+*Function to handle error and incorrect registration numbers
+*Function to handle resetting data.
+*
+*
+*
+*
+*
+*
+*
+
+4 .Database layer
+* Create an ElephantSQL database named registration numbers
+* Create a table called towns:
+- Entity pk named town name > insert town names with script/SQL query.
+*Create a table named registrations_numbers
+- Entity named reg_number 
+-fk named town name
+
+*create connection.js file and import promise and dotenv
+*create .env file, enter DATABASE_URL from ElephantSQL
+*create connection string and parse it into pgPromise instance.
+*Console log process.env to see if URL is parsed correctly.
+
+* create identical local host database along with the tables
+
+
+
+
+

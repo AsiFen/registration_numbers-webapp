@@ -26,23 +26,24 @@
 
             <div class="dropdown mb-8 text-center mt-4">
                 <label for="">Select Town:</label>
-                <select name="towns" id="towns">
+                <select name="towns" id="towns" class="bg-yellow-400">
                     <option name="regRadio" value="all">View All</option>
                     <option name="regRadio" value="CA"> Cape Town(CA)</option>
                     <option name="regRadio" value="CL"> Stellenbosch(CL)</option>
                     <option name="regRadio" value="CJ"> Paarl(CJ)</option>
                     <option name="regRadio" value="CT"> Ceres(CT)</option>
                 </select>
-                <input type="submit" name="chooseTown">
+                <input type="submit" name="chooseTown" class="border-solid rounded">
             </div>
         </form>
         <div class="registration_no flex flex-wrap justify-center" name="registration_no">
             {{#each car_registration}}
-            <div class="reg_display text-xl border-double border-5 border-neutral-600 rounded mx-1 py-1 bg-lime-400 text-neutral-950 text-center mb-6">
-                <a href="/reg_numbers/{{this}}">
+            <a href="/reg_numbers/{{this}}">
+                <div
+                    class="reg_display text-xl border-double border-5 border-neutral-600 rounded mx-1 py-1 bg-lime-400 text-neutral-950 text-center mb-6">
                     {{this}}
-                </a>
-            </div>
+                </div>
+            </a>
             {{/each}}
         </div>
         {{!--
@@ -64,7 +65,8 @@
 
         <div class="">
             {{#each select_town}}
-            <span class="reg_display text-xl border-double border-5 border-primary mx-1 py-1 text-neutral-950 text-center mb-6 bg-pink-500">
+            <span
+                class="reg_display text-xl border-double border-5 border-primary mx-1 py-1 text-neutral-950 text-center mb-6 bg-pink-500">
                 {{this}}
             </span>
             {{/each}}

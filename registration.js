@@ -54,24 +54,28 @@ export default function Registration() {
         if (reg == '' || reg == null) {
             errorMessage = 'Please enter a vehicle registration'
             return errorMessage
-        }
+        }else
         if (reg.charAt(0).toLowerCase() !== 'c') {
             errorMessage = 'Registration must start with C'
             return errorMessage
-        }
+        }else
         if (['A', 'L', 'T', 'J'].includes(indicator) == false) {
             errorMessage = 'Registration must be from Cape Town(CA), Stellenbosch(CL), Ceres(CT) or Paarl(CJ)'
             return errorMessage
-        }
+        }else
         if (sub.length < 4) {
             errorMessage = 'Registration is too short.'
             return errorMessage
-        }
+        }else
         if (sub.length > 7) {
             errorMessage = 'Registration is too long.'
             return errorMessage
         }
-        return ''
+else
+        if (!validRegistration()){
+
+        }
+
     }
 
     return {
