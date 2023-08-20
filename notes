@@ -80,8 +80,8 @@ have {{selectedRegistration}} object template to output the selected registratio
 
 
 to do list:
-1.1 CREATE DB SQL queries. Using a table in another table.
-1.2 Create db connection
+// 1.1 CREATE DB SQL queries. Using a table in another table.
+// 1.2 Create db connection
 2. Use those queries in Factory Function.
 3. Create tests
 4. Create Routes
