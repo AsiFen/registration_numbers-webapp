@@ -1,4 +1,5 @@
-export default function RegistrationListDB() {
+export default function RegistrationListDB(db) {
+    
     async function retrieveUserTown(registration) {
         let indicator = registration.substring(0,2)
         const usersTown = await db.one('SELECT * FROM town_name WHERE name = $1',[indicator])
@@ -36,6 +37,6 @@ export default function RegistrationListDB() {
         reset,
         getAll,
         retrieveUserTown,
-        getCarRegistration
+        getCarRegistration, filterReg, add
     }
 }
