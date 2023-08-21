@@ -1,6 +1,7 @@
 export default function Registration() {
     let registration_list = []
     let selectedItem = []
+    let firstTwoChars;
 
     function validRegistration(user_registration) {
         let regExpression = /^C[ALTJ][ ]\d{3}[- ]?\d{1,3}$/
@@ -13,6 +14,7 @@ export default function Registration() {
             if (registration_list[user_registration] == undefined) {
                 registration_list.push(user_registration)
                 registration_list[user_registration] = 0
+
             }
         }
     }
@@ -24,16 +26,22 @@ export default function Registration() {
     function selectTown(dropdown_value) {
         selectedItem = []
         for (let i = 0; i < registration_list.length; i++) {
-            let firstTwoChars = registration_list[i].charAt(0) + registration_list[i].charAt(1)
+            firstTwoChars = registration_list[i].charAt(0) + registration_list[i].charAt(1)
             if (dropdown_value == firstTwoChars || dropdown_value == 'all') {
                 selectedItem.push(registration_list[i])
             }
         }
     }
+    
+    function getIndicator() {
+        if (firstTwoChars) {
+            return firstTwoChars
+        }
+    }
 
     function getSelectedTown() {
-    //   if  (isTownSelected()){
-            return selectedItem
+        //   if  (isTownSelected()){
+        return selectedItem
         // }
     }
 
@@ -54,28 +62,27 @@ export default function Registration() {
         if (reg == '' || reg == null) {
             errorMessage = 'Please enter a vehicle registration'
             return errorMessage
-        }else
-        if (reg.charAt(0).toLowerCase() !== 'c') {
-            errorMessage = 'Registration must start with C'
-            return errorMessage
-        }else
-        if (['A', 'L', 'T', 'J'].includes(indicator) == false) {
-            errorMessage = 'Registration must be from Cape Town(CA), Stellenbosch(CL), Ceres(CT) or Paarl(CJ)'
-            return errorMessage
-        }else
-        if (sub.length < 4) {
-            errorMessage = 'Registration is too short.'
-            return errorMessage
-        }else
-        if (sub.length > 7) {
-            errorMessage = 'Registration is too long.'
-            return errorMessage
-        }
-else
-        if (!validRegistration()){
+        } else
+            if (reg.charAt(0).toLowerCase() !== 'c') {
+                errorMessage = 'Registration must start with C'
+                return errorMessage
+            } else
+                if (['A', 'L', 'T', 'J'].includes(indicator) == false) {
+                    errorMessage = 'Registration must be from Cape Town(CA), Stellenbosch(CL), Ceres(CT) or Paarl(CJ)'
+                    return errorMessage
+                } else
+                    if (sub.length < 4) {
+                        errorMessage = 'Registration is too short.'
+                        return errorMessage
+                    } else
+                        if (sub.length > 7) {
+                            errorMessage = 'Registration is too long.'
+                            return errorMessage
+                        }
+                        else
+                            if (!validRegistration()) {
 
-        }
-
+                            }
     }
 
     return {
@@ -84,6 +91,7 @@ else
         getSelectedTown,
         selectTown,
         isTownSelected,
+        getIndicator,
         validRegistration,
         clear,
         errors

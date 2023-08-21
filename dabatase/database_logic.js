@@ -1,5 +1,8 @@
 export default function RegistrationListDB() {
-
+    async function retrieveUserTown(registration) {
+        const usersTown = await db.any('SELECT * FROM town_name WHERE ')
+        return usersTown;
+    }
 
     async function getAll() {
         const all_data = await db.any('SELECT * FROM registration_numbers')
@@ -7,8 +10,13 @@ export default function RegistrationListDB() {
     }
 
     async function getCarRegistration(registration_number) {
-        const result = await db.oneOrNone('SELECT * FROM registration_numbers WHERE name = $1', [registration_number]);
-        return result
+        const registrations = await db.oneOrNone('SELECT * FROM registration_numbers WHERE name = $1', [registration_number]);
+        return registrations.map(row => row.car_registration);
+    }
+
+    async function filterReg(registration) {
+
+        const results = await db.any('SELECT car_registration FROM registration_numbers WHERE town = $1', [town])
     }
 
     async function reset() {
@@ -27,6 +35,7 @@ export default function RegistrationListDB() {
     return {
         reset,
         getAll,
+        retrieveUserTown,
         getCarRegistration,
         insertRegistration
     }
