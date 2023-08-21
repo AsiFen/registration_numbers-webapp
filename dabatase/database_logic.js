@@ -1,6 +1,7 @@
 export default function RegistrationListDB() {
     async function retrieveUserTown(registration) {
-        const usersTown = await db.any('SELECT * FROM town_name WHERE ')
+        let indicator = registration.substring(0,2)
+        const usersTown = await db.one('SELECT * FROM town_name WHERE name = $1',[indicator])
         return usersTown;
     }
 
@@ -15,28 +16,22 @@ export default function RegistrationListDB() {
     }
 
     async function filterReg(registration) {
-
+     let town =  await retrieveUserTown(registration)
         const results = await db.any('SELECT car_registration FROM registration_numbers WHERE town = $1', [town])
     }
 
     async function reset() {
-        const cleared = await db.none('DELETE FROM greeting')
+        const cleared = await db.none('DELETE FROM registration_numbers')
         return cleared;
     }
 
-    async function insertRegistration(registration_number) {
-        try {
-            await db.none('INSERT INTO registration_numbers (car_registration)', [registration_number]);
-        } catch (error) {
-            console.error('Error inserting greeting data:', error);
-        }
+    
     }
 
     return {
         reset,
         getAll,
         retrieveUserTown,
-        getCarRegistration,
-        insertRegistration
+        getCarRegistration
     }
 }
