@@ -21,10 +21,14 @@ export default function RegistrationListDB() {
     }
 
     async function reset() {
-        const cleared = await db.none('DELETE FROM registration_numbers')
-        return cleared;
+   await db.none('DELETE FROM registration_numbers');    
     }
 
+
+    async function add(registration){
+    let town =  await retrieveUserTown(registration)
+    await db.any('INSERT INTO registration_numbers (car_registration, town) VALUES ($1, 1)',[registration,town])
+}
     
     }
 
