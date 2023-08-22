@@ -2,7 +2,7 @@
 //import express  framework
 import express from 'express';
 //import Registration module
-import Registration from './registration.js';
+import Registration from './dabatase/registration.js';
 //import the handlebars engine 
 import exphbs from 'express-handlebars';
 //import body-parsers to handle the reading of template objects?
@@ -12,6 +12,7 @@ import flash from 'express-flash';
 import session from 'express-session';
 //import the database connection module
 import db from './dabatase/db_connection.js';
+import RegistrationListDB from './dabatase/database_logic.js';
 
 //instantiate express module
 let app = express();
@@ -38,8 +39,11 @@ app.use(bodyParser.json())
 //built-in static middleware from ExpressJS to use static resources such as my CSS
 app.use(express.static('public'))
 
+//instance of db factory function
+let registrationListDB = RegistrationListDB(db);
+
 //instance of the factory function 
-let registration = Registration();
+let registration = Registration(registrationListDB);
 
 //Send objects by rending to the index using the Get Method
 app.get('/', (req, res) => {

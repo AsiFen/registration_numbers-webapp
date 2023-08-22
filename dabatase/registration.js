@@ -1,4 +1,4 @@
-export default function Registration() {
+export default function Registration(registrationListDB) {
     let registration_list = []
     let selectedItem = []
     let firstTwoChars;
@@ -9,12 +9,13 @@ export default function Registration() {
 
     }
 
-    function addRegistrations(user_registration) {
+   async function addRegistrations(user_registration) {
         if (validRegistration(user_registration)) {
             if (registration_list[user_registration] == undefined) {
-                registration_list.push(user_registration)
-                registration_list[user_registration] = 0
-
+                registration_list.push(user_registration);
+                registration_list[user_registration] = 0;
+                // Use the add function from RegistrationListDB
+              await registrationListDB.add(user_registration);
             }
         }
     }
@@ -23,7 +24,7 @@ export default function Registration() {
         return registration_list
     }
 
-    function selectTown(dropdown_value) {
+    async function selectTown(dropdown_value) {
         selectedItem = []
         for (let i = 0; i < registration_list.length; i++) {
             firstTwoChars = registration_list[i].charAt(0) + registration_list[i].charAt(1)
@@ -31,8 +32,19 @@ export default function Registration() {
                 selectedItem.push(registration_list[i])
             }
         }
+
+        // Use the filterReg function from RegistrationListDB
+        if (firstTwoChars) {
+            await registrationListDB.filterReg(firstTwoChars)
+                .then(results => {
+                    selectedItem = results;
+                })
+                .catch(error => {
+                    console.error('Error filtering registrations:', error);
+                });
+        }
     }
-    
+
     function getIndicator() {
         if (firstTwoChars) {
             return firstTwoChars
