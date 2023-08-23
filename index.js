@@ -14,6 +14,8 @@ import session from 'express-session';
 import db from './dabatase/db_connection.js';
 import RegistrationListDB from './dabatase/database_logic.js';
 
+import Example from './route/example.js';
+
 //instantiate express module
 let app = express();
 //configuring the handlebars module 
@@ -45,37 +47,27 @@ let registrationListDB = RegistrationListDB(db);
 //instance of the factory function 
 let registration = Registration(registrationListDB);
 
+//
+let example = Example();
+
 //Send objects by rending to the index using the Get Method
 app.get('/', (req, res) => {
     let userReg = registration.getRegistrations();
     let isSelected = registration.isTownSelected();
+
+    let errorMessage = req.flash('errors')[0];
+    let resetMessage = req.flash('reset')[0];
     res.render('index', {
         car_registration: userReg,
-        select_town: registration.getSelectedTown()
-    })
-
-
-})
-
-app.get('/reg_numbers/:registration_no', (req, res) => {
-    let registration_no = req.params.registration_no;
-    res.render('registration', {
-        showReg: registration_no
+        select_town: registration.getSelectedTown(),
+        error_message: errorMessage,
+        reset_message: resetMessage
     })
 })
 
-// app.get('/:town', (req, res) => {
-//     const selectedTown = req.params.town;
-//     res.redirect('/');
+app.get('/reg_numbers/:registration_no', example.asiphe)
 
-//     // Process the selectedTown value and get the list of towns that match
-//     // This could involve filtering the registration_list based on the selectedTown
-//     // const selectedTowns = registration.getSelectedTown(selectedTown);
-//     // Then send the list of selected towns back as a response
-//     // res.send(selectedTowns);
-
-
-// });
+//post getting data from the drop-down form
 app.post('/reg_number', (req, res) => {
     let town = req.body.towns;
     console.log(town);
@@ -84,12 +76,22 @@ app.post('/reg_number', (req, res) => {
     res.redirect('/');
 
 })
-
+//post getting data from the input form 
 app.post('/reg_numbers', (req, res) => {
     let car_reg = req.body.car_reg;
     registration.validRegistration(car_reg);
     registration.addRegistrations(car_reg);
+
+    req.flash('errors', registration.errors(car_reg));
+
     res.redirect('/');
+})
+
+app.post('/reset', (req, res) => {
+    registration.clear();
+    req.flash('reset', 'Successfully cleared!')
+    res.redirect('/')
+
 })
 
 //process the enviroment the port is running on

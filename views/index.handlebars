@@ -14,6 +14,21 @@
                 <button type="submit"
                     class="rounded px-2 py-1 border-2 border-neutral-950 bg-lime-500 ml-6 mb-2">enter</button>
             </div>
+
+            <div class="error">
+                {{#if error_message}}
+                <span
+                    class="error-message mb-6 border border-solid border-red-500 py-4 px-4 bg-red-200 bg-no-repeat bg-center text-red-700">
+                    {{error_message}}
+                </span>
+                <script>
+                    // Clear the error message after 5 seconds
+                    setTimeout(function () {
+                        document.querySelector('.error-message').style.display = 'none';
+                    }, 3000);
+                </script>
+                {{/if}}
+            </div>
         </form>
 
     </div>
@@ -26,7 +41,7 @@
 
             <div class="dropdown mb-8 text-center mt-4">
                 <label for="">Select Town:</label>
-                <select name="towns" id="towns" class="bg-yellow-400">
+                <select name="towns" id="towns" class="bg-neutral-900">
                     <option name="regRadio" value="all">View All</option>
                     <option name="regRadio" value="CA"> Cape Town(CA)</option>
                     <option name="regRadio" value="CL"> Stellenbosch(CL)</option>
@@ -46,22 +61,6 @@
             </a>
             {{/each}}
         </div>
-        {{!--
-        <script>
-            const dropdown = document.querySelector('select[name="towns"]');
-
-            dropdown.addEventListener('change', () => {
-                const selectedValue = dropdown.value;
-                fetch(`/${selectedValue}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        // Update the list of towns on the front-end using the returned data
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                    });
-            });
-        </script> --}}
 
         <div class="">
             {{#each select_town}}
@@ -70,6 +69,29 @@
                 {{this}}
             </span>
             {{/each}}
+        </div>
+
+        {{#if reset_message}}
+        <div
+            class="reset-message border border-solid border-green-500 mx-auto p-4 bg-green-200 bg-no-repeat bg-center text-green-700">
+            <span>{{reset_message}}</span>
+            <script>
+                // Clear the reset message after 5 seconds
+                setTimeout(function () {
+                    document.querySelector('.reset-message').style.display = 'none';
+                }, 5000);
+            </script>
+        </div>
+        {{/if}}
+
+        <div>
+            <form action="/reset" method="post">
+                <button type="submit"
+                    class="reset-button mt-2 bg-white text-gray-700 border-2 border-primary px-4 py-2 rounded-full ml-4 hover:bg-neutral-700 hover:text-white">
+
+                    reset
+                </button>
+            </form>
         </div>
     </div>
 </div>

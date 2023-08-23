@@ -1,4 +1,4 @@
-INSERT INTO town_name (name) VALUES ('CA');
-INSERT INTO town_name (name) VALUES ('CL');
-INSERT INTO town_name (name) VALUES ('CT');
-INSERT INTO town_name (name) VALUES ('CJ');
+INSERT INTO town_name (code) VALUES ('CA');
+INSERT INTO town_name (code) VALUES ('CL');
+INSERT INTO town_name (code) VALUES ('CT');
+INSERT INTO town_name (code) VALUES ('CJ');

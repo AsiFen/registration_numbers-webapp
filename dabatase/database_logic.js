@@ -2,8 +2,8 @@ export default function RegistrationListDB(db) {
 
     async function retrieveUserTown(registration) {
         let indicator = registration.substring(0, 2)
-        const usersTown = await db.one('SELECT * FROM town_name WHERE name = $1', [indicator])
-        return usersTown;
+        const usersTown = await db.one('SELECT id FROM town_name WHERE code = $1', [indicator])
+        return usersTown.id;
     }
 
     async function getAll() {
@@ -17,28 +17,29 @@ export default function RegistrationListDB(db) {
     }
 
     async function filterReg(registration) {
-        let town = await retrieveUserTown(registration)
-        const results = await db.any('SELECT car_registration FROM registration_numbers WHERE town = $1', [town])
+        let town = await retrieveUserTown(registration);
+        const townId = town.id; 
+        const results = await db.any('SELECT car_registration FROM registration_numbers WHERE town = $1', [townId]);
         return results;
-        
     }
-
+    
     async function reset() {
         await db.none('DELETE FROM registration_numbers');
     }
 
-
     async function add(registration) {
         let the_town = await retrieveUserTown(registration)
-        await db.any('INSERT INTO registration_numbers (car_registration, town) VALUES ($1, 1)', [registration, the_town])
+        // let indicator = registration.substring(0, 2);
+        console.log(the_town);
+        await db.any('INSERT INTO registration_numbers (car_registration, town) VALUES ($1, $2)', [registration, the_town])
     }
 
     return {
         reset,
-            getAll,
-            retrieveUserTown,
-            getCarRegistration,
-            filterReg,
-            add
+        getAll,
+        retrieveUserTown,
+        getCarRegistration,
+        filterReg,
+        add
     }
 }
