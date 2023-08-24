@@ -51,18 +51,20 @@
                 <input type="submit" name="chooseTown" class="border-solid rounded">
             </div>
         </form>
+        {{#if car_registration}}
         <div class="registration_no flex flex-wrap justify-center" name="registration_no">
             {{#each car_registration}}
-            <a href="/reg_numbers/{{this}}">
+            <a href="/reg_numbers/{{town}}">
                 <div
                     class="reg_display text-xl border-double border-5 border-neutral-600 rounded mx-1 py-1 bg-lime-400 text-neutral-950 text-center mb-6">
-                    {{this}}
+                    {{this.car_registration}}
                 </div>
             </a>
             {{/each}}
         </div>
-
-        <div class="">
+        {{else}}
+        {{#if select_town}}
+        <div>
             {{#each select_town}}
             <span
                 class="reg_display text-xl border-double border-5 border-primary mx-1 py-1 text-neutral-950 text-center mb-6 bg-pink-500">
@@ -70,6 +72,8 @@
             </span>
             {{/each}}
         </div>
+        {{/if}}
+        {{/if}}
 
         {{#if reset_message}}
         <div
@@ -84,12 +88,24 @@
         </div>
         {{/if}}
 
+
         <div>
+            {{#if dropdownErr}}
+            <div
+                class="error-message mb-6 border border-solid border-red-500 py-4 px-4 bg-red-200 bg-no-repeat bg-center text-red-700">
+                {{dropdownErr}}
+            </div>
+            <script>
+                // Clear the error message after 5 seconds
+                setTimeout(function () {
+                    document.querySelector('.error-message').style.display = 'none';
+                }, 3000);
+            </script>
+            {{/if}}
             <form action="/reset" method="post">
                 <button type="submit"
-                    class="reset-button mt-2 bg-white text-gray-700 border-2 border-primary px-4 py-2 rounded-full ml-4 hover:bg-neutral-700 hover:text-white">
-
-                    reset
+                    class="reset-button mt-2 bg-white text-gray-700 border-2 border-primary px-4 py-2 rounded-full ml-4 hover:bg-neutral-700 hover:text-white"
+                    type="submit" onclick="return confirm('Are you sure you want to reset?')">Reset</button>
                 </button>
             </form>
         </div>

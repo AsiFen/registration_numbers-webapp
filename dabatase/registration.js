@@ -12,37 +12,28 @@ export default function Registration(registrationListDB) {
 
     async function addRegistrations(user_registration) {
         if (validRegistration(user_registration)) {
-            if (registration_list[user_registration] == undefined) {
-                registration_list.push(user_registration);
-                registration_list[user_registration] = 0;
-                // Use the add function from RegistrationListDB
+            user_registration.toUpperCase()
+            const exists = await registrationListDB.isExisting(user_registration);
+            if (!exists) {
                 await registrationListDB.add(user_registration);
             }
+            
         }
     }
 
-    function getRegistrations() {
-        return registration_list
+    async function getRegistrations() {
+        return registration_list = await registrationListDB.getAll();
     }
 
     async function selectTown(dropdown_value) {
         selectedItem = []
-        for (let i = 0; i < registration_list.length; i++) {
-            firstTwoChars = registration_list[i].charAt(0) + registration_list[i].charAt(1)
-            if (dropdown_value == firstTwoChars || dropdown_value == 'all') {
-                selectedItem.push(registration_list[i])
-            }
-        }
 
-        // Use the filterReg function from RegistrationListDB
-        if (firstTwoChars) {
-            await registrationListDB.filterReg(firstTwoChars)
-                .then(results => {
-                    selectedItem = results;
-                })
-                .catch(error => {
-                    console.error('Error filtering registrations:', error);
-                });
+        if (dropdown_value == 'all') {
+            return await registrationListDB.getAll()
+
+        }
+        else {
+            return await registrationListDB.filterReg(dropdown_value)
         }
     }
 
@@ -53,9 +44,7 @@ export default function Registration(registrationListDB) {
     }
 
     function getSelectedTown() {
-        //   if  (isTownSelected()){
         return selectedItem
-        // }
     }
 
     function isTownSelected() {
@@ -63,17 +52,19 @@ export default function Registration(registrationListDB) {
     }
 
     async function clear() {
-     registration_list = []
-     selectedItem = []
-     firstTwoChars;
+        registration_list = []
+        selectedItem = []
+        firstTwoChars;
         await registrationListDB.reset();
 
     }
 
-    function errors(reg) {
+    async function errors(reg) {
         let errorMessage;
         let sub = reg.substring(3);
         let indicator = reg.charAt(1).toUpperCase()
+        const exists = await registrationListDB.isExisting(reg);
+
         if (reg == '' || reg == null) {
             errorMessage = 'Please enter a vehicle registration'
             return errorMessage
@@ -96,8 +87,13 @@ export default function Registration(registrationListDB) {
         }
         else if (!validRegistration()) {
             errorMessage = 'Please enter correct registration.'
+            return errorMessage
         }
 
+        else if (exists) {
+            errorMessage = 'Already exists'
+            return errorMessage
+        }
     }
 
     return {

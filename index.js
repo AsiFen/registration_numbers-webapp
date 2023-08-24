@@ -51,15 +51,18 @@ let registration = Registration(registrationListDB);
 let example = Example();
 
 //Send objects by rending to the index using the Get Method
-app.get('/', (req, res) => {
-    let userReg = registration.getRegistrations();
+app.get('/', async (req, res) => {
+    let userReg = await registration.getRegistrations();
     let isSelected = registration.isTownSelected();
+    console.log(userReg);
 
     let errorMessage = req.flash('errors')[0];
     let resetMessage = req.flash('reset')[0];
+    let showSelected = !userReg //hide the car registration when the selected item is called
+    // console.log(registration.getSelectedTown());
     res.render('index', {
         car_registration: userReg,
-        select_town: registration.getSelectedTown(),
+        select_town: showSelected ? registration.getSelectedTown() : '',
         error_message: errorMessage,
         reset_message: resetMessage
     })
@@ -68,23 +71,20 @@ app.get('/', (req, res) => {
 app.get('/reg_numbers/:registration_no', example.asiphe)
 
 //post getting data from the drop-down form
-app.post('/reg_number', (req, res) => {
+app.post('/reg_number', async (req, res) => {
     let town = req.body.towns;
-    console.log(town);
-    console.log(registration.getSelectedTown());
-    registration.selectTown(town);
-    res.redirect('/');
-
+    let userReg = await registration.selectTown(town);
+    res.redirect('/')
 })
 //post getting data from the input form 
-app.post('/reg_numbers', (req, res) => {
+app.post('/reg_numbers',async (req, res) => {
     let car_reg = req.body.car_reg;
     registration.validRegistration(car_reg);
-    registration.addRegistrations(car_reg);
-
-    req.flash('errors', registration.errors(car_reg));
-
+   await registration.addRegistrations(car_reg);
+let err = await registration.errors(car_reg)
+    req.flash('errors',err );
     res.redirect('/');
+
 })
 
 app.post('/reset', (req, res) => {
