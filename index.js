@@ -79,9 +79,9 @@ app.post('/reg_number', async (req, res) => {
 //post getting data from the input form 
 app.post('/reg_numbers',async (req, res) => {
     let car_reg = req.body.car_reg;
-    registration.validRegistration(car_reg);
-   await registration.addRegistrations(car_reg);
-let err = await registration.errors(car_reg)
+    registration.validRegistration(car_reg.toUpperCase());
+   await registration.addRegistrations(car_reg.toUpperCase());
+let err = await registration.errors(car_reg.toUpperCase())
     req.flash('errors',err );
     res.redirect('/');
 

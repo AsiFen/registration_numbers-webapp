@@ -3,6 +3,7 @@ export default function Registration(registrationListDB) {
     let registration_list = []
     let selectedItem = []
     let firstTwoChars;
+    let errorMessage;
 
     function validRegistration(user_registration) {
         let regExpression = /^C[ALTJ][ ]\d{3}[- ]?\d{1,3}$/
@@ -17,7 +18,10 @@ export default function Registration(registrationListDB) {
             if (!exists) {
                 await registrationListDB.add(user_registration);
             }
-            
+            else {
+                errorMessage = 'Already exists!'
+                return false
+            }
         }
     }
 
@@ -60,11 +64,9 @@ export default function Registration(registrationListDB) {
     }
 
     async function errors(reg) {
-        let errorMessage;
         let sub = reg.substring(3);
         let indicator = reg.charAt(1).toUpperCase()
-        const exists = await registrationListDB.isExisting(reg);
-
+   
         if (reg == '' || reg == null) {
             errorMessage = 'Please enter a vehicle registration'
             return errorMessage
@@ -85,15 +87,11 @@ export default function Registration(registrationListDB) {
             errorMessage = 'Registration is too long.'
             return errorMessage
         }
-        else if (!validRegistration()) {
+        else if (!validRegistration(reg)) {
             errorMessage = 'Please enter correct registration.'
             return errorMessage
         }
-
-        else if (exists) {
-            errorMessage = 'Already exists'
-            return errorMessage
-        }
+        return errorMessage
     }
 
     return {
