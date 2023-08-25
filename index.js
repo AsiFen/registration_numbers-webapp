@@ -61,7 +61,7 @@ app.get('/', async (req, res) => {
     console.log(registration.getSelectedTown());
     res.render('index', {
         car_registration: userReg,
-        car_registration: registration.getSelectedTown(),
+        car_registration:  registration.getSelectedTown() ? registration.getSelectedTown() : userReg,
         error_message: errorMessage,
         reset_message: resetMessage
     })
@@ -79,10 +79,10 @@ app.post('/reg_number', async (req, res) => {
 //post getting data from the input form 
 app.post('/reg_numbers', (req, res) => {
     let car_reg = req.body.car_reg;
-    registration.validRegistration(car_reg);
-    registration.addRegistrations(car_reg);
+    registration.validRegistration(car_reg.toUpperCase());
+    registration.addRegistrations(car_reg.toUpperCase());
 
-    req.flash('errors', registration.errors(car_reg));
+    req.flash('errors', registration.errors(car_reg.toUpperCase()));
 
     res.redirect('/');
 })
