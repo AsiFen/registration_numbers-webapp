@@ -28,36 +28,54 @@ describe('Database Tests for Registration WebApp', () => {
     it('should add a registration number', async () => {
         let reg_number = 'CA 123 123';
         await registrationListDB.add(reg_number);
-        const result = await registrationListDB.getAll();
-        console.log(result[0].car_registration);
-        assert.strictEqual(result[0].car_registration, reg_number);
+        const result = await registrationListDB.getRegId(reg_number);
+        const carReg = await registrationListDB.getCarRegistration(result)
+        // assert.strictEqual(result.id, 1);
+        assert.deepEqual(carReg, { car_registration: 'CA 123 123' });
     });
 
-    // it('should not add an existing registration number', async () => {
+    it('should not add an existing registration number', async () => {
 
-    // })
-    
+    })
+
     it('should view all registration numbers', async () => {
+        let reg_numbers = ['CA 123 123', 'CA 123 456', 'CL 654 321', 'CT 313 14'];
+    
+        // Add all registration numbers
+        for (let reg_number of reg_numbers) {
+            await registrationListDB.add(reg_number);
+        }
+    
+        // Get all registrations
+        const result = await registrationListDB.getAll();
+    
+        for (let i = 0; i < result.length; i++) {
+            const expected = {
+                car_registration: reg_numbers[i],
+                id: result[i].id,
+                town: result[i].town
+            };
+            
+            assert.deepStrictEqual(result[i], expected);
+        }
+    });
+    
+
+    it('should not add an existing registration number', async () => {
         let reg_number = 'CA 123 123';
         await registrationListDB.add(reg_number);
-        const result = await registrationListDB.getAll();
+        let exists = await registrationListDB.isExisting(reg_number);
+        await registrationListDB.add(reg_number);
 
-        assert.strictEqual(result[0].car_registration, reg_number);
+        assert.equal(exists, true)
+
     });
 
-    // it('should not add an existing registration number', async () => {
-    //     let reg_number = 'CA 123 123';
-
-    //     await registrationListDB.add(reg_number);
-
-    //     try {
-    //         await registrationListDB.add(reg_number);
-
-    //         assert.fail('Expected an error');
-    //     } catch (error) {
-    //         assert.strictEqual(error.message, 'duplicate key value violates unique constraint');
-    //     }
-    // });
+    it('reset the database', async () => {
+        registrationListDB.reset();
+        let all = await registrationListDB.getAll()
+        assert.deepEqual([], all)
+    })
 
     after(function () {
         db.$pool.end;

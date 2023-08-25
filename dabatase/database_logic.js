@@ -25,8 +25,7 @@ export default function RegistrationListDB(db) {
 
     async function getRegId(registration) {
         const result = await db.one('SELECT id FROM registration_numbers WHERE car_registration = $1', [registration])
-        console.log(result);
-        return result;
+        return result.id;
     }
 
     async function getAll() {
@@ -34,10 +33,8 @@ export default function RegistrationListDB(db) {
         return all_data;
     }
 
-    async function getCarRegistration(registration_number) {
-        let regId = await getRegId(registration_number)
-        console.log(regId);
-        let id = await db.oneOrNone('SELECT car_registration FROM registration_numbers WHERE id = $1', [regId]);
+    async function getCarRegistration(regId) {
+       return await db.oneOrNone('SELECT car_registration FROM registration_numbers WHERE id = $1', [regId]);
     }
 
     async function reset() {
