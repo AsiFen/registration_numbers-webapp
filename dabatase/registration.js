@@ -30,14 +30,12 @@ export default function Registration(registrationListDB) {
     }
 
     async function selectTown(dropdown_value) {
-        selectedItem = []
-
         if (dropdown_value == 'all') {
-            return await registrationListDB.getAll()
+            return selectedItem = await registrationListDB.getAll()
 
         }
         else {
-            return await registrationListDB.filterReg(dropdown_value)
+            return selectedItem = await registrationListDB.filterReg(dropdown_value)
         }
     }
 
@@ -47,8 +45,8 @@ export default function Registration(registrationListDB) {
         }
     }
 
-    function getSelectedTown() {
-        return selectedItem
+     function getSelectedTown() {
+        return  selectedItem
     }
 
     function isTownSelected() {

@@ -54,15 +54,14 @@ let example = Example();
 app.get('/', async (req, res) => {
     let userReg = await registration.getRegistrations();
     let isSelected = registration.isTownSelected();
-    console.log(userReg);
 
     let errorMessage = req.flash('errors')[0];
     let resetMessage = req.flash('reset')[0];
     let showSelected = !userReg //hide the car registration when the selected item is called
-    // console.log(registration.getSelectedTown());
+    console.log(registration.getSelectedTown());
     res.render('index', {
         car_registration: userReg,
-        select_town: showSelected ? registration.getSelectedTown() : '',
+        car_registration: registration.getSelectedTown(),
         error_message: errorMessage,
         reset_message: resetMessage
     })
@@ -73,18 +72,19 @@ app.get('/reg_numbers/:registration_no', example.asiphe)
 //post getting data from the drop-down form
 app.post('/reg_number', async (req, res) => {
     let town = req.body.towns;
-    let userReg = await registration.selectTown(town);
+ let userReg =  await registration.selectTown(town);
+//  console.log(userReg);
     res.redirect('/')
 })
 //post getting data from the input form 
-app.post('/reg_numbers',async (req, res) => {
+app.post('/reg_numbers', (req, res) => {
     let car_reg = req.body.car_reg;
-    registration.validRegistration(car_reg.toUpperCase());
-   await registration.addRegistrations(car_reg.toUpperCase());
-let err = await registration.errors(car_reg.toUpperCase())
-    req.flash('errors',err );
-    res.redirect('/');
+    registration.validRegistration(car_reg);
+    registration.addRegistrations(car_reg);
 
+    req.flash('errors', registration.errors(car_reg));
+
+    res.redirect('/');
 })
 
 app.post('/reset', (req, res) => {
