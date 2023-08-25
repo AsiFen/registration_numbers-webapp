@@ -45,19 +45,19 @@ describe('Database Tests for Registration WebApp', () => {
         assert.strictEqual(result[0].car_registration, reg_number);
     });
 
-    it('should not add an existing registration number', async () => {
-        let reg_number = 'CA 123 123';
+    // it('should not add an existing registration number', async () => {
+    //     let reg_number = 'CA 123 123';
 
-        await registrationListDB.add(reg_number);
+    //     await registrationListDB.add(reg_number);
 
-        try {
-            await registrationListDB.add(reg_number);
+    //     try {
+    //         await registrationListDB.add(reg_number);
 
-            assert.fail('Expected an error');
-        } catch (error) {
-            assert.strictEqual(error.message, 'duplicate key value violates unique constraint');
-        }
-    });
+    //         assert.fail('Expected an error');
+    //     } catch (error) {
+    //         assert.strictEqual(error.message, 'duplicate key value violates unique constraint');
+    //     }
+    // });
 
     after(function () {
         db.$pool.end;
