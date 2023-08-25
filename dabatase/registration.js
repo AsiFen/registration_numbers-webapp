@@ -55,18 +55,17 @@ export default function Registration(registrationListDB) {
         return (selectedItem.length === 0) ? true : false
     }
 
-    async function clear() {
+    async function clear(RegistrationListDB) {
+        await registrationListDB.reset();
         registration_list = []
         selectedItem = []
         firstTwoChars;
-        await registrationListDB.reset();
-
     }
 
-    async function errors(reg) {
+    function errors(reg) {
         let sub = reg.substring(3);
         let indicator = reg.charAt(1).toUpperCase()
-   
+
         if (reg == '' || reg == null) {
             errorMessage = 'Please enter a vehicle registration'
             return errorMessage

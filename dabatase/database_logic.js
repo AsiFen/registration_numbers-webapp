@@ -23,24 +23,32 @@ export default function RegistrationListDB(db) {
         return usersTown.id;
     }
 
+    async function getRegId(registration) {
+        const result = await db.one('SELECT id FROM registration_numbers WHERE car_registration = $1', [registration])
+        console.log(result);
+        return result;
+    }
+
     async function getAll() {
         const all_data = await db.any('SELECT * FROM registration_numbers')
         return all_data;
     }
 
     async function getCarRegistration(registration_number) {
-        await db.oneOrNone('SELECT * FROM registration_numbers WHERE name = $1', [registration_number]);
+        let regId = await getRegId(registration_number)
+        console.log(regId);
+        let id = await db.oneOrNone('SELECT car_registration FROM registration_numbers WHERE id = $1', [regId]);
     }
-
 
     async function reset() {
-        await db.none('DELETE FROM registration_numbers');
+        const cleared = await db.none('DELETE FROM registration_numbers')
+        return cleared;
     }
-
     return {
         add,
         reset,
         getAll,
+        getRegId,
         filterReg,
         isExisting,
         retrieveUserTown,

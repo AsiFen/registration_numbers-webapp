@@ -15,10 +15,10 @@
                     class="rounded px-2 py-1 border-2 border-neutral-950 bg-lime-500 ml-6 mb-2">enter</button>
             </div>
 
-            <div class="error">
+            <div class="error py-4 text-center">
                 {{#if error_message}}
                 <span
-                    class="error-message mb-6 border border-solid border-red-500 py-4 px-4 bg-red-200 bg-no-repeat bg-center text-red-700">
+                    class="error-message border border-solid border-red-500 py-4 bg-red-200 text-center text-red-700 mb-8">
                     {{error_message}}
                 </span>
                 <script>
@@ -54,7 +54,7 @@
         {{#if car_registration}}
         <div class="registration_no flex flex-wrap justify-center" name="registration_no">
             {{#each car_registration}}
-            <a href="/reg_numbers/{{town}}">
+            <a href="/reg_numbers/{{this.car_registration}}">
                 <div
                     class="reg_display text-xl border-double border-5 border-neutral-600 rounded mx-1 py-1 bg-lime-400 text-neutral-950 text-center mb-6">
                     {{this.car_registration}}
@@ -62,22 +62,11 @@
             </a>
             {{/each}}
         </div>
-        {{else}}
-        {{#if select_town}}
-        <div>
-            {{#each select_town}}
-            <span
-                class="reg_display text-xl border-double border-5 border-primary mx-1 py-1 text-neutral-950 text-center mb-6 bg-pink-500">
-                {{this}}
-            </span>
-            {{/each}}
-        </div>
-        {{/if}}
         {{/if}}
 
         {{#if reset_message}}
         <div
-            class="reset-message border border-solid border-green-500 mx-auto p-4 bg-green-200 bg-no-repeat bg-center text-green-700">
+            class="reset-message border border-solid border-green-500 p-4 bg-green-200 text-green-700 text-center">
             <span>{{reset_message}}</span>
             <script>
                 // Clear the reset message after 5 seconds
