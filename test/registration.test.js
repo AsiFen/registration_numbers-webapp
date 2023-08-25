@@ -7,7 +7,6 @@
 
 import assert from 'assert';
 // import db from '../dabatase/db_connection.js';
-import Registration from '../dabatase/registration.js';
 import RegistrationListDB from '../dabatase/database_logic.js';
 
 import pgPromise from 'pg-promise';
@@ -18,7 +17,6 @@ const db = pgPromise()(connectionString);
 
 describe('Database Tests for Registration WebApp', () => {
     let registrationListDB = RegistrationListDB(db);
-    let registration = Registration(registrationListDB);
 
     beforeEach(async () => {
         //reset db before eact test is ran 
@@ -72,13 +70,16 @@ describe('Database Tests for Registration WebApp', () => {
     });
 
     it('reset the database', async () => {
-        registrationListDB.reset();
+       await registrationListDB.reset();
+       
         let all = await registrationListDB.getAll()
         assert.deepEqual([], all)
     })
 
     after(function () {
+        registrationListDB.reset();
         db.$pool.end;
+
     });
 })
 
