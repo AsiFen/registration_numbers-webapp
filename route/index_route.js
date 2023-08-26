@@ -1,9 +1,7 @@
 export default function IndexRoute(registration) {
     async function show(req, res) {
         let userReg = await registration.getRegistrations();
-        let drop_message = registration.isTownSelected();
-        console.log(drop_message);
-        req.flash('reset', drop_message)
+        
         let errorMessage = req.flash('errors')[0];
         let resetMessage = req.flash('reset')[0];
         let filter = req.flash('filter')[0];
@@ -19,7 +17,9 @@ export default function IndexRoute(registration) {
     async function getSelection(req, res) {
         let town = req.body.towns;
         let userReg = await registration.selectTown(town);
-      
+      let drop_message = registration.isTownSelected();
+        console.log(drop_message);
+        req.flash('reset', drop_message)
         req.flash('filter', userReg);
         res.redirect('/')
     }
