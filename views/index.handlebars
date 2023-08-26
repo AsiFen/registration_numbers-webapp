@@ -51,29 +51,26 @@
                 <input type="submit" name="chooseTown" class="border-solid rounded">
             </div>
         </form>
-        {{#if car_registration}}
+        {{!-- Display car registration if available --}}
         <div class="registration_no flex flex-wrap justify-center" name="registration_no">
             {{#each car_registration}}
-            <a href="/reg_numbers/{{town}}">
+            <a href="/reg_numbers/{{this.car_registration}}">
                 <div
                     class="reg_display text-xl border-double border-5 border-neutral-600 rounded mx-1 py-1 bg-lime-400 text-neutral-950 text-center mb-6">
                     {{this.car_registration}}
                 </div>
             </a>
             {{/each}}
-        </div>
-        {{else}}
-        {{#if select_town}}
-        <div>
+
             {{#each select_town}}
-            <span
-                class="reg_display text-xl border-double border-5 border-primary mx-1 py-1">
-                {{this}}
-            </span>
+            <a href="/reg_numbers/{{this.car_registration}}">
+                <div class="reg_display text-xl border-double border-5 border-primary mx-1 py-1">
+                    {{this}}
+                </div>
+            </a>
             {{/each}}
         </div>
-        {{/if}}
-        {{/if}}
+
 
         {{#if reset_message}}
         <div
@@ -96,7 +93,7 @@
                 {{dropdownErr}}
             </div>
             <script>
-                // Clear the error message after 5 seconds
+                // Clear the error message after 3 seconds
                 setTimeout(function () {
                     document.querySelector('.error-message').style.display = 'none';
                 }, 3000);

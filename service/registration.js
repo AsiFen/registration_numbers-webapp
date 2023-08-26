@@ -1,63 +1,63 @@
 
 export default function Registration(registrationListDB) {
-    let registration_list = []
+    let dropdown_value;
     let selectedItem = []
-    let firstTwoChars;
+    let filter = false;
     let errorMessage;
 
-    function validRegistration(user_registration) {
+    function validRegistration(user_reg) {
         let regExpression = /^C[ALTJ][ ]\d{3}[- ]?\d{1,3}$/
+        let user_registration = user_reg.toUpperCase()
         return (regExpression.test(user_registration) === true) ? true : false
-
     }
 
-    async function addRegistrations(user_registration) {
-        if (validRegistration(user_registration)) {
-            user_registration.toUpperCase()
+    async function addRegistrations(user_reg) {
+        filter = false;
+        if (validRegistration(user_reg)) {
+           let user_registration = user_reg.toUpperCase()
             const exists = await registrationListDB.isExisting(user_registration);
             if (!exists) {
                 await registrationListDB.add(user_registration);
             }
             else {
                 errorMessage = 'Already exists!'
-                return false
+                return []
             }
         }
     }
 
+
     async function getRegistrations() {
-        return registration_list = await registrationListDB.getAll();
-    }
 
-    async function selectTown(dropdown_value) {
-        if (dropdown_value == 'all') {
-            return selectedItem = await registrationListDB.getAll()
-
+        if (filter) {
+            if (dropdown_value == 'all') {
+                return selectedItem = await registrationListDB.getAll()
+            }
+            else {
+                return selectedItem = await registrationListDB.filterReg(dropdown_value)
+            }
         }
         else {
-            return selectedItem = await registrationListDB.filterReg(dropdown_value)
+            return selectedItem = await registrationListDB.getAll();
         }
     }
 
-    function getIndicator() {
-        if (firstTwoChars) {
-            return firstTwoChars
-        }
-    }
-
-     function getSelectedTown() {
-        return  selectedItem
+    async function selectTown(dropdown) {
+        filter = true
+        dropdown_value = dropdown
     }
 
     function isTownSelected() {
-        return (selectedItem.length === 0) ? true : false
+        if (selectedItem.length == 0) {
+            return 'No registrations for that town!'
+        }
+        else if (selectedItem.length > 0) {
+            return 'Successful selection!'
+        }
     }
 
-    async function clear(RegistrationListDB) {
+    async function clear() {
         await registrationListDB.reset();
-        registration_list = []
-        selectedItem = []
-        firstTwoChars;
     }
 
     function errors(reg) {
@@ -94,10 +94,8 @@ export default function Registration(registrationListDB) {
     return {
         addRegistrations,
         getRegistrations,
-        getSelectedTown,
         selectTown,
         isTownSelected,
-        getIndicator,
         validRegistration,
         clear,
         errors

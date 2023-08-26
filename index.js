@@ -2,7 +2,7 @@
 //import express  framework
 import express from 'express';
 //import Registration module
-import Registration from './dabatase/registration.js';
+import Registration from './service/registration.js';
 //import the handlebars engine 
 import exphbs from 'express-handlebars';
 //import body-parsers to handle the reading of template objects?
@@ -12,10 +12,11 @@ import flash from 'express-flash';
 import session from 'express-session';
 //import the database connection module
 import db from './dabatase/db_connection.js';
+//database logic import
 import RegistrationListDB from './dabatase/database_logic.js';
-
-import Example from './route/example.js';
-
+//routes imports
+import RegistrationRoute from './route/registration_route.js';
+import IndexRoute from './route/index_route.js';
 //instantiate express module
 let app = express();
 //configuring the handlebars module 
@@ -47,52 +48,20 @@ let registrationListDB = RegistrationListDB(db);
 //instance of the factory function 
 let registration = Registration(registrationListDB);
 
-//
-let example = Example();
+//route instantiations
+let index_route = IndexRoute(registration);
+let reg_route = RegistrationRoute();
 
 //Send objects by rending to the index using the Get Method
-app.get('/', async (req, res) => {
-    let userReg = await registration.getRegistrations();
-    let isSelected = registration.isTownSelected();
+app.get('/', index_route.show)
 
-    let errorMessage = req.flash('errors')[0];
-    let resetMessage = req.flash('reset')[0];
-    let showSelected = !userReg //hide the car registration when the selected item is called
-    console.log(registration.getSelectedTown());
-    res.render('index', {
-        car_registration: userReg,
-        car_registration:  registration.getSelectedTown() ? registration.getSelectedTown() : userReg,
-        error_message: errorMessage,
-        reset_message: resetMessage
-    })
-})
+app.get('/reg_numbers/:registration_no', reg_route.show_registration)
 
-app.get('/reg_numbers/:registration_no', example.asiphe)
-
+app.post('/reg_numbers', index_route.addRegistration)
 //post getting data from the drop-down form
-app.post('/reg_number', async (req, res) => {
-    let town = req.body.towns;
- let userReg =  await registration.selectTown(town);
-//  console.log(userReg);
-    res.redirect('/')
-})
-//post getting data from the input form 
-app.post('/reg_numbers', (req, res) => {
-    let car_reg = req.body.car_reg;
-    registration.validRegistration(car_reg.toUpperCase());
-    registration.addRegistrations(car_reg.toUpperCase());
-
-    req.flash('errors', registration.errors(car_reg.toUpperCase()));
-
-    res.redirect('/');
-})
-
-app.post('/reset', (req, res) => {
-    registration.clear();
-    req.flash('reset', 'Successfully cleared!')
-    res.redirect('/')
-
-})
+app.post('/reg_number', index_route.getSelection)
+//post route to reset data from the page
+app.post('/reset', index_route.reset)
 
 //process the enviroment the port is running on
 let PORT = process.env.PORT || 3000;

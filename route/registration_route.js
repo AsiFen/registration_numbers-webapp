@@ -1,5 +1,5 @@
-export default function Example() {
-    async function asiphe(req, res) {
+export default function RegistrationRoute() {
+    async function show_registration(req, res) {
         let registration_no = req.params.registration_no;
         console.log(registration_no);
         res.render('registration', {
@@ -7,6 +7,6 @@ export default function Example() {
         })
     }
     return {
-        asiphe
+        show_registration
     }
 }
