@@ -51,7 +51,7 @@ export default function Registration(registrationListDB) {
         if (selectedItem.length == 0) {
             return 'No registrations for that town!'
         }
-        else if (selectedItem.length > 0) {
+        else if (selectedItem.length != 0) {
             return 'Successful selection!'
         }
     }
