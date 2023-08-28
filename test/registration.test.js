@@ -109,7 +109,7 @@ describe('Database Tests for Registration WebApp', () => {
 
         let all = await registrationListDB.getAll()
         assert.deepEqual([], all)
-    })
+    });
 
     after(function () {
         registrationListDB.reset();
