@@ -1,17 +1,17 @@
 export default function IndexRoute(registration) {
     async function show(req, res) {
-        
+
         let userReg = await registration.getRegistrations();
         
         let errorMessage = req.flash('errors')[0];
         let resetMessage = req.flash('reset')[0];
         let filter = req.flash('filter')[0];
 
-        console.log(userReg);
+        console.log();
         res.render('index', {
             car_registration: userReg,
             // select_town: filter,
-            error_message: errorMessage,
+            error_message: errorMessage || userReg.length == 0 ? filter :  '',
             reset_message: resetMessage
         })
     }
@@ -21,8 +21,8 @@ export default function IndexRoute(registration) {
         let userReg = await registration.selectTown(town);
       let drop_message = registration.isTownSelected();
         console.log(drop_message);
-        req.flash('reset', drop_message)
-        req.flash('filter', userReg);
+        req.flash('filter', drop_message)
+        // req.flash('filter', userReg);
         res.redirect('/')
     }
 

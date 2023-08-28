@@ -14,7 +14,7 @@ export default function Registration(registrationListDB) {
     async function addRegistrations(user_reg) {
         filter = false;
         if (validRegistration(user_reg)) {
-           let user_registration = user_reg.toUpperCase()
+            let user_registration = user_reg.toUpperCase()
             const exists = await registrationListDB.isExisting(user_registration);
             if (!exists) {
                 await registrationListDB.add(user_registration);
@@ -49,12 +49,7 @@ export default function Registration(registrationListDB) {
     }
 
     function isTownSelected() {
-        if (selectedItem.length == 0) {
-            return 'No registrations for that town!'
-        }
-        else if (selectedItem.length != 0) {
-            return 'Successful selection!'
-        }
+        return 'No registrations for that town!'
     }
 
     async function clear() {
