@@ -18,6 +18,7 @@ export default function Registration(registrationListDB) {
             const exists = await registrationListDB.isExisting(user_registration);
             if (!exists) {
                 await registrationListDB.add(user_registration);
+                errorMessage = ''
             }
             else {
                 errorMessage = 'Already exists!'
