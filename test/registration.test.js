@@ -36,12 +36,10 @@ describe('Database Tests for Registration WebApp', () => {
 
     it('should view all registration numbers', async () => {
         let reg_numbers = ['CA 123 123', 'CA 123 456', 'CL 654 321', 'CT 313 14'];
-    
         // Add all registration numbers
         for (let reg_number of reg_numbers) {
             await registrationListDB.add(reg_number);
         }
-    
         // Get all registrations
         const result = await registrationListDB.getAll();
     
