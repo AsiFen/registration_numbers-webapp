@@ -48,7 +48,8 @@
                     <option name="regRadio" value="CJ"> Paarl(CJ)</option>
                     <option name="regRadio" value="CT"> Ceres(CT)</option>
                 </select>
-                <input type="submit" name="chooseTown" class="border-solid rounded">
+                <button type="submit" name="chooseTown"
+                    class="py-1 mx-auto rounded text-lime-500 text-center hover:bg-nuetral-400 bg-neutral-700">filter</button>
             </div>
         </form>
         {{!-- Display car registration if available --}}
@@ -86,10 +87,23 @@
         {{/if}}
 
 
+        {{#if select_messages}}
+        <div
+            class="select-message border border-solid p-4 bg-white text-neutral-700 text-center">
+            <span>{{select_messages}}</span>
+            <script>
+                setTimeout(function () {
+                    document.querySelector('.select-message').style.display = 'none';
+                }, 2000);
+            </script>
+        </div>
+        {{/if}}
+
+
         <div>
             {{#if dropdownErr}}
             <div
-                class="error-message mb-6 border border-solid border-red-500 py-4 my-2 bg-red-200 bg-no-repeat bg-center text-red-700">
+                class="error-message border border-solid border-red-500 py-4 mx-auto bg-red-200 text-red-700">
                 {{dropdownErr}}
             </div>
             <script>

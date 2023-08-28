@@ -2,27 +2,23 @@ export default function IndexRoute(registration) {
     async function show(req, res) {
 
         let userReg = await registration.getRegistrations();
-        
+
         let errorMessage = req.flash('errors')[0];
         let resetMessage = req.flash('reset')[0];
         let filter = req.flash('filter')[0];
 
-        console.log();
         res.render('index', {
             car_registration: userReg,
-            // select_town: filter,
-            error_message: errorMessage || userReg.length == 0 ? filter :  '',
+            select_messages: userReg.length == 0 ? filter : '',
+            error_message: errorMessage,
             reset_message: resetMessage
         })
     }
 
     async function getSelection(req, res) {
         let town = req.body.towns;
-        let userReg = await registration.selectTown(town);
-      let drop_message = registration.isTownSelected();
-        console.log(drop_message);
-        req.flash('filter', drop_message)
-        // req.flash('filter', userReg);
+        await registration.selectTown(town);
+        req.flash('filter', registration.isTownSelected())
         res.redirect('/')
     }
 
@@ -39,6 +35,7 @@ export default function IndexRoute(registration) {
         await registration.addRegistrations(car_reg.toUpperCase());
 
         req.flash('errors', registration.errors(car_reg.toUpperCase()));
+        req.flash('addPressed', )
 
         res.redirect('/');
     }
