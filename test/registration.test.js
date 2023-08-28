@@ -32,9 +32,7 @@ describe('Database Tests for Registration WebApp', () => {
         assert.deepEqual(carReg, { car_registration: 'CA 123 123' });
     });
 
-    it('should not add an existing registration number', async () => {
-
-    })
+ 
 
     it('should view all registration numbers', async () => {
         let reg_numbers = ['CA 123 123', 'CA 123 456', 'CL 654 321', 'CT 313 14'];
@@ -49,9 +47,9 @@ describe('Database Tests for Registration WebApp', () => {
     
         for (let i = 0; i < result.length; i++) {
             const expected = {
-                car_registration: reg_numbers[i],
-                id: result[i].id,
-                town: result[i].town
+                'car_registration': reg_numbers[i],
+                'id': result[i].id,
+                'town': result[i].town
             };
             
             assert.deepStrictEqual(result[i], expected);
