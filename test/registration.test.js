@@ -87,7 +87,7 @@ describe('Database Tests for Registration WebApp', () => {
         const filteredTown = 'CA';
         const filteredRegistrations = await registrationListDB.filterReg(filteredTown);
 
-        assert.equal(filteredRegistrations, [{ 'car_registration': '123 123' }, { 'car_registration': 'CA 123 456' }])
+        assert.deepEqual(filteredRegistrations, [{ 'car_registration': '123 123' }, { 'car_registration': 'CA 123 456' }])
     });
 
     it('should filter registration numbers by selecting All', async () => {
@@ -101,7 +101,7 @@ describe('Database Tests for Registration WebApp', () => {
         for (let i = 0; i < allSelected.length; i++) {
             element.push(allSelected[i].car_registration);
         }
-        assert.equal(element, reg_numbers)
+        assert.deepEqual(element, reg_numbers)
     });
 
     it('reset the database', async () => {
