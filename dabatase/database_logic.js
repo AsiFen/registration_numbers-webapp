@@ -41,10 +41,16 @@ export default function RegistrationListDB(db) {
         const cleared = await db.none('DELETE FROM registration_numbers')
         return cleared;
     }
+
+    async function getTown(id){
+        const result = await db.any('SELECT code FROM town_name WHER id = $1',[id])
+        return result;
+    }
     return {
         add,
         reset,
         getAll,
+        getTown,
         getRegId,
         filterReg,
         isExisting,

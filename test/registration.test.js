@@ -32,8 +32,6 @@ describe('Database Tests for Registration WebApp', () => {
         assert.deepEqual(carReg, { car_registration: 'CA 123 123' });
     });
 
-
-
     it('should view all registration numbers', async () => {
         let reg_numbers = ['CA 123 123', 'CA 123 456', 'CL 654 321', 'CT 313 14'];
         // Add all registration numbers
@@ -66,41 +64,45 @@ describe('Database Tests for Registration WebApp', () => {
     });
 
     it('should retrieve the town ID for a registration number', async () => {
-        const reg_number = 'CA 123 123';
-        const townId = await registrationListDB.retrieveUserTown(reg_number);
-        assert.equal(typeof townId, 'number');
+        await registrationListDB.add('CT 2010');
+        const townId = await registrationListDB.retrieveUserTown('CT 2010');
+        assert.equal(townId, 3);
     });
 
-    it('should retrieve a car registration by ID', async () => {
+    it('should retrieve a car registration by townID', async () => {
         const reg_number = 'CA 123 123';
         await registrationListDB.add(reg_number);
         const regId = await registrationListDB.getRegId(reg_number);
         const carReg = await registrationListDB.getCarRegistration(regId);
         assert.equal(carReg.car_registration, reg_number);
+
     });
 
     it('should filter registration numbers by town', async () => {
-        const reg_numbers = ['CA 123 123', 'CA 456 789', 'CL 654 321', 'CT 313 14'];
+        const reg_numbers = ['CA 123 123', 'CA 123 456', 'CL 654 321', 'CT 313 14'];
         for (const reg_number of reg_numbers) {
             await registrationListDB.add(reg_number);
         }
 
-        const townToFilter = 'Cape Town';
-        const filteredRegistrations = await registrationListDB.filterReg(townToFilter);
+        const filteredTown = 'CA';
+        const filteredRegistrations = await registrationListDB.filterReg(filteredTown);
 
-        const expectedFilteredRegistrations = reg_numbers.filter(reg_number => {
-            const townId = registrationListDB.retrieveUserTown(reg_number);
-            // Replace the townId comparison with the actual logic that matches town IDs
-            return townId === townToFilter;
-        });
-
-        assert.equal(filteredRegistrations.length, expectedFilteredRegistrations.length);
-
-        for (let i = 0; i < filteredRegistrations.length; i++) {
-            assert.equal(filteredRegistrations[i].car_registration, expectedFilteredRegistrations[i]);
-        }
+        assert.deepEqual(filteredRegistrations, [{ "car_registration": "CA 123 123" }, { "car_registration": "CA 123 456" }])
     });
 
+    it('should filter registration numbers by selecting All', async () => {
+        const reg_numbers = ['CJ 064 628', 'CA 928 456', 'CL 654 321', 'CT 313 14'];
+        for (const reg_number of reg_numbers) {
+            await registrationListDB.add(reg_number);
+        }
+
+        const allSelected = await registrationListDB.getAll();
+        let element=[];
+        for (let i = 0; i < allSelected.length; i++) {
+            element.push(allSelected[i].car_registration);
+        }
+        assert.deepEqual(element, reg_numbers)
+    });
 
     it('reset the database', async () => {
         await registrationListDB.reset();
