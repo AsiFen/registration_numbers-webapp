@@ -87,11 +87,11 @@ describe('Database Tests for Registration WebApp', () => {
         const filteredTown = 'CA';
         const filteredRegistrations = await registrationListDB.filterReg(filteredTown);
 
-        assert.equal(filteredRegistrations, [{ "car_registration": "CA 123 123" }, { "car_registration": "CA 123 456" }])
+        assert.equal(filteredRegistrations, [{ 'car_registration': '123 123' }, { 'car_registration': 'CA 123 456' }])
     });
 
     it('should filter registration numbers by selecting All', async () => {
-        const reg_numbers = ['CJ 064 628', 'CA 928 456', 'CL 654 321', 'CT 313 14'];
+        const reg_numbers = ["CJ 064 628", "CA 928 456", "CL 654 321", "CT 313 14"];
         for (const reg_number of reg_numbers) {
             await registrationListDB.add(reg_number);
         }
